@@ -7,22 +7,22 @@ public class Bullet : MonoBehaviour
     public int damage = 50;
     public GameObject impactEffect;
     public float explosionRadius = 0f;
-    private Transform target;
+    private Transform _target;
 
     public void Seek (Transform _target)
     {
-        target = _target;
+        this._target = _target;
     }
 
     private void Update()
     {
-        if(target == null)
+        if(_target == null)
         {
             Destroy(gameObject);
             return;
         }
 
-        Vector3 dir = target.position - transform.position;
+        Vector3 dir = _target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
 
         if(dir.magnitude <= distanceThisFrame)
@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         }
 
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
-        transform.LookAt(target);
+        transform.LookAt(_target);
     }
 
     void HitTarget()
@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Damage(target);
+            Damage(_target);
         }
 
         

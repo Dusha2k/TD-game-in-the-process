@@ -15,16 +15,16 @@ public class Node : MonoBehaviour
     public bool isUpgraded;
 
 
-    private Renderer rend;
-    private Color startColor;
+    private Renderer _rend;
+    private Color _startColor;
 
-    private BuildManager buildManager;
+    private BuildManager _buildManager;
 
     private void Start()
     {
-        rend = GetComponent<Renderer>();
-        startColor = rend.material.color;
-        buildManager = BuildManager.instance;
+        _rend = GetComponent<Renderer>();
+        _startColor = _rend.material.color;
+        _buildManager = BuildManager.instance;
     }
 
     public Vector3 GetBuildPosition()
@@ -39,14 +39,14 @@ public class Node : MonoBehaviour
 
         if(turret != null)
         {
-            buildManager.SelectNode(this);
+            _buildManager.SelectNode(this);
             return;
         }
 
-        if (!buildManager.CanBuild)
+        if (!_buildManager.CanBuild)
             return;
 
-        BuildTurret(buildManager.GetTurretToBuild());
+        BuildTurret(_buildManager.GetTurretToBuild());
     }
 
     void BuildTurret(TurretBlueprint blueprint)
@@ -64,7 +64,7 @@ public class Node : MonoBehaviour
 
         turretBlueprint = blueprint;
 
-        GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
+        GameObject effect = (GameObject)Instantiate(_buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
         Destroy(effect, 5f);
 
         Debug.Log("Turret Build");
@@ -85,7 +85,7 @@ public class Node : MonoBehaviour
         GameObject _turret = (GameObject)Instantiate(turretBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
         turret = _turret;
 
-        GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
+        GameObject effect = (GameObject)Instantiate(_buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
         Destroy(effect, 5f);
 
         isUpgraded = true;
@@ -98,20 +98,20 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!buildManager.CanBuild)
+        if (!_buildManager.CanBuild)
             return;
-        if (buildManager.HasMoney)
+        if (_buildManager.HasMoney)
         {
-            rend.material.color = hoverColor;
+            _rend.material.color = hoverColor;
         }
         else
         {
-            rend.material.color = notEnoughMoneyColor;
+            _rend.material.color = notEnoughMoneyColor;
         }
     }
 
     private void OnMouseExit()
     {
-        rend.material.color = startColor;
+        _rend.material.color = _startColor;
     }
 }

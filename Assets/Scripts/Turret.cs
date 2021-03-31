@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    private Transform target;
-    private Enemy targetEnemy;
+    private Transform _target;
+    private Enemy _targetEnemy;
 
     [Header("General")]
 
@@ -41,7 +41,7 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
-        if (target == null)
+        if (_target == null)
         {
             if (useLaser)
             {
@@ -77,8 +77,8 @@ public class Turret : MonoBehaviour
 
     void Laser()
     {
-        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
-        targetEnemy.Slow(slowPct);
+        _targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        _targetEnemy.Slow(slowPct);
 
         if (!lineRenderer.enabled)
         {
@@ -89,17 +89,17 @@ public class Turret : MonoBehaviour
             
 
         lineRenderer.SetPosition(0, firePoint.position);
-        lineRenderer.SetPosition(1, target.position);
+        lineRenderer.SetPosition(1, _target.position);
 
-        Vector3 dir = firePoint.position - target.position;
-        impactEffect.transform.position = target.position + dir.normalized;
+        Vector3 dir = firePoint.position - _target.position;
+        impactEffect.transform.position = _target.position + dir.normalized;
         impactEffect.transform.rotation = Quaternion.LookRotation(dir);
     }
 
     void LockOnTarget()
     {
         //Target lock on
-        Vector3 dir = target.position - transform.position;
+        Vector3 dir = _target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
@@ -112,7 +112,7 @@ public class Turret : MonoBehaviour
 
         if(bullet != null)
         {
-            bullet.Seek(target);
+            bullet.Seek(_target);
         }
     }
 
@@ -132,12 +132,12 @@ public class Turret : MonoBehaviour
 
             if (nearestEnemy != null && shortestDistance <= range)
             {
-                target = nearestEnemy.transform;
-                targetEnemy = nearestEnemy.GetComponent<Enemy>();
+                _target = nearestEnemy.transform;
+                _targetEnemy = nearestEnemy.GetComponent<Enemy>();
             }
             else
             {
-                target = null;
+                _target = null;
             }
         }
     }

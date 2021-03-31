@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 
     public float panSpeed = 30f;
 	public float scrollSpeed = 5f;
-    private float panBorderThickness = 10f;
+    private float _panBorderThickness = 10f;
 	public float minY = 10f;
 	public float maxY = 80f;
 
@@ -29,19 +29,19 @@ public class CameraController : MonoBehaviour
 			return;
         }
 
-		if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness)
+		if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - _panBorderThickness)
 		{
 			transform.Translate(Vector3.forward * panSpeed * Time.deltaTime, Space.World);
 		}
-		if (Input.GetKey("s") || Input.mousePosition.y <= panBorderThickness)
+		if (Input.GetKey("s") || Input.mousePosition.y <= _panBorderThickness)
 		{
 			transform.Translate(Vector3.back * panSpeed * Time.deltaTime, Space.World);
 		}
-		if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - panBorderThickness)
+		if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - _panBorderThickness)
 		{
 			transform.Translate(Vector3.right * panSpeed * Time.deltaTime, Space.World);
 		}
-		if (Input.GetKey("a") || Input.mousePosition.x <= panBorderThickness)
+		if (Input.GetKey("a") || Input.mousePosition.x <= _panBorderThickness)
 		{
 			transform.Translate(Vector3.left * panSpeed * Time.deltaTime, Space.World);
 		}
